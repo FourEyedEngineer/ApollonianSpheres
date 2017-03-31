@@ -4,6 +4,7 @@ END GOAL: We want a 2D representation of the Apollonian Spheres. Given three ini
 the next group of circles tangent to the previous three that created it. The GUI is the 2D representation...
 
 
+
 31 March 2017
 
 At the moment, we have the three initial circles and their location. We know how to calculate the radius of the 
