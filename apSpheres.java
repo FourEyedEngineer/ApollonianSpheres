@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.Collection;
 import javafx.application.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
@@ -10,6 +10,9 @@ import javafx.stage.Stage;
 public class AppSpheres extends Application{
 	private double d = 2.; //dimension
 	private int iteration = 1;
+	private Collection<ArrayList<Circle>> itC = new ArrayList<ArrayList<Circle>>(iteration+1); 
+	private Collection<ArrayList<ArrayList<Circle>>> parentC = new ArrayList<ArrayList<ArrayList<Circle>>>(iteration+1); 
+	
 	Pane pane = new Pane();
 	
 	/**
@@ -19,6 +22,32 @@ public class AppSpheres extends Application{
 	 * @param C list of initial three circles
 	 */
 	private void inOutCircles(ArrayList<Circle> C) {
+		//Radius for circles
+		ArrayList<Double> rad = summRad(C);
+		
+		//Will return center point for inner/outer circles
+		ArrayList<Double> gp = summLoc(rad.get(0), C.get(1).getRadius(), C);
+		
+		//Create inner/outer circles
+		final Circle cOut = new Circle();
+		final Circle cIn = new Circle();
+		
+		cOut.setRadius(-1 * rad.get(1)); cOut.setCenterX(gp.get(0)); cOut.setCenterY(gp.get(1));
+		cOut.setStroke(Color.BLACK); cOut.setFill(Color.TRANSPARENT);
+		cIn.setRadius(rad.get(0)); cIn.setCenterX(gp.get(0)); cIn.setCenterY(gp.get(1));
+		cIn.setStroke(Color.BLACK); cIn.setFill(Color.WHITE);
+		
+		//Add to pane
+		pane.getChildren().add(cOut);
+		pane.getChildren().add(cIn);
+	}
+	
+	/**
+	 * 
+	 * @param C
+	 * @return
+	 */
+	private ArrayList<Double> summRad(ArrayList<Circle> C) {
 		//Summation of the first three curvatures
 		double sum = 0;
 		for(int i = 0; i < d + 1; i++) {
@@ -37,24 +66,19 @@ public class AppSpheres extends Application{
 		double c = sum1 - ((1. / d) * Math.pow(sum, 2));
 		
 		//Radius using quad formula for inner/outer circle
-		double radOut = (1. / ((-b - Math.sqrt(Math.pow(b, 2) - (4*a*c)))/(2*a)));
-		double radIn = 1. / ((-b + Math.sqrt(Math.pow(b, 2) - (4*a*c)))/(2*a));
+		double pRad = 1. / ((-b + Math.sqrt(Math.pow(b, 2) - (4*a*c)))/(2*a));
+		double nRad = (1. / ((-b - Math.sqrt(Math.pow(b, 2) - (4*a*c)))/(2*a)));
+
+		ArrayList<Double> radii = new ArrayList<>();
+		radii.add(pRad); 
 		
-		//Will return center point for inner/outer circles
-		ArrayList<Double> gp = summLoc(radIn, C.get(1).getRadius(), C);
-		
-		//Create inner/outer circles
-		final Circle cOut = new Circle();
-		final Circle cIn = new Circle();
-		
-		cOut.setRadius(-1 * radOut); cOut.setCenterX(gp.get(0)); cOut.setCenterY(gp.get(1));
-		cOut.setStroke(Color.BLACK); cOut.setFill(Color.TRANSPARENT);
-		cIn.setRadius(radIn); cIn.setCenterX(gp.get(0)); cIn.setCenterY(gp.get(1));
-		cIn.setStroke(Color.BLACK); cIn.setFill(Color.WHITE);
-		
-		//Add to pane
-		pane.getChildren().add(cOut);
-		pane.getChildren().add(cIn);
+		if(iteration == 1) {
+			radii.add(nRad);
+			return radii;
+		}
+		else {
+			return radii;
+		}
 	}
 	
 	/**
@@ -135,16 +159,15 @@ public class AppSpheres extends Application{
 	}
 	
 	//WORK IN PROGRESS
-	public void iterations(int iter, double d, ArrayList<Circle> c, double findRad) {
+	public void iterations(int iter, ArrayList<Circle> c) {
 		for(int i = 1; i < iter; i++) {
 			if (i == 1) {
 				inOutCircles(c);
 			}
-			//else
+			
 		}
 	}
 	
-
 	@Override
 	public void start(Stage primaryStage) {
 		//Initial three circles
@@ -163,6 +186,7 @@ public class AppSpheres extends Application{
 		//Array of circles
 		ArrayList<Circle> circles = new ArrayList<>();
 		circles.add(c1); circles.add(c2); circles.add(c3);
+		itC.add(circles);
 		
 		//Add to pane
 		pane.getChildren().add(c1);
@@ -182,4 +206,5 @@ public class AppSpheres extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-}
+
+}	
