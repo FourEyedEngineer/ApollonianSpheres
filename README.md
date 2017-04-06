@@ -12,4 +12,14 @@ inner/outer circle, we have them. We just now have to figure out how to get thei
 for them using the math doc that Rachel wrote. - Janine
 
 ------------------------------------
+2 April 2017
 
+Met as a group. Worked on getting location of inner/outer spheres, setting up interface, and figuring out 3 topics/methods 
+learned in class. - Janine
+
+------------------------------------
+5 April 2017
+
+Met with Professor and figured out how to get location of inner/outer cirlce. Created separate methods for find the location
+of any circle and a separate method for iteration 1 which is a special case. Need to implement 3 topics/method learned in class
+and how to get further iterations. - Janine
