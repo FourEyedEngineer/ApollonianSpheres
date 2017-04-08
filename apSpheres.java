@@ -1,5 +1,3 @@
-package drawing_basics;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +9,9 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /**
+ * This program will show a 2D representation of Apollonian spheres.
  * 
- * @author thomasj18
- *
+ * @author Janine Thomas
  */
 public class AppSpheres extends Application {
 	private double d = 2.; //dimension
